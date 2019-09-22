@@ -92,6 +92,7 @@ resource "aws_route_table" "ingress_rtb" {
 
   tags  = {
     Environment = "${var.env_name}"
+    Name = "Ingress-RouteTable"
   }
 }
 
@@ -105,24 +106,82 @@ resource "aws_route_table" "egress_rtb" {
 
   tags  = {
     Environment = "${var.env_name}"
+    Name = "Egress-RouteTable"
   }
 }
 
+# resource "aws_route_table" "private_rtb" {
+#   vpc_id  = "${var.vpc-id}"
+
+#   route {
+#       cidr_block = "0.0.0.0/0"
+#       gateway_id = "${aws_internet_gateway.igw.id}"
+#   }
+
+#   tags  = {
+#     Environment = "${var.env_name}"
+#     Name = "Private-RouteTable"
+#   }
+# }
+
 resource "aws_route_table" "private_rtb" {
+  count = "${length(aws_subnet.private-subnet.*.id)}"
+
   vpc_id  = "${var.vpc-id}"
 
 
-  tags  = {
-    Environment = "${var.env_name}"
+  tags = {
+    "Name" = "private_rtb-${count.index+1}"
+  }
+  
+}
+
+resource "aws_route" "private_nat_gateway" {
+  count = "${length(aws_subnet.private-subnet.*.id)}"
+
+  route_table_id         = element(aws_route_table.private_rtb.*.id, count.index)
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = element(aws_nat_gateway.nat-gw.*.id, count.index)
+
+  timeouts {
+    create = "5m"
   }
 }
+
+resource "aws_route_table_association" "associate_private" {
+  count = "${length(aws_subnet.private-subnet.*.id)}"
+
+  subnet_id = element(aws_subnet.private-subnet.*.id, count.index)
+  route_table_id = element(aws_route_table.private_rtb.*.id,count.index)
+}
+
 
 resource "aws_route_table" "data_rtb" {
   vpc_id  = "${var.vpc-id}"
 
   tags  = {
     Environment = "${var.env_name}"
+    Name = "Data-RouteTable"
   }
+}
+
+
+resource "aws_route_table_association" "Assoiate_ingress" {
+  count = "${length(aws_subnet.ingress-subnet.*.id)}"
+  subnet_id     = "${element(aws_subnet.ingress-subnet.*.id, count.index)}"
+  route_table_id = "${aws_route_table.ingress_rtb.id}"
+}
+
+resource "aws_route_table_association" "Assoiate_egress" {
+ count = "${length(aws_subnet.egress-subnet.*.id)}"
+  subnet_id     = "${element(aws_subnet.egress-subnet.*.id, count.index)}"
+  route_table_id = "${aws_route_table.egress_rtb.id}"
+}
+
+resource "aws_route_table_association" "Assoiate_data" {
+  count = "${length(aws_subnet.data-subnet.*.id)}"
+  subnet_id     = "${element(aws_subnet.data-subnet.*.id, count.index)}"
+  route_table_id = "${aws_route_table.data_rtb.id}"
 }
 
 ########################################################
@@ -340,28 +399,23 @@ output "vpc_id" {
 
 }
 
-
-data "aws_subnet_ids" "egress_ids" {
-  #vpc_id  = "${var.vpc-id}"
-  vpc_id = "${aws_vpc.vpc-demo.id}"
-
-  tags = {
-    Tier = "Egress"
-  }
+output "private_subs" {
+  value = ["${aws_subnet.private-subnet.*.id}"]
 }
 
-#data "aws_subnet_ids" "private" {
-#  vpc_id = "${aws_vpc.vpc-demo.id}"
-#
-#  tags = {
-#    Tier = "Private"
-#  }
-#}
+output "ingress_subs" {
+  value = ["${aws_subnet.ingress-subnet.*.id}"]
+}
 
-#output "private_subnet_ids" {
-#  value = ["${data.aws_subnet_ids.private.ids}"]
-#}
+output "alb_sg" {
+  value = ["${aws_security_group.alb_sg.*.id}"]
+}
 
-#output "subnet_id" {
-#    value = "${aws_subnet.private-subnet-1[count.index]}"
-#}
+output "app_sg" {
+  value = ["${aws_security_group.application_sg.*.id}"]
+}
+
+output "bastion_sg" {
+  value = ["${aws_security_group.bastion_sg.*.id}"]
+}
+
