@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 ##### Instance ID captured through Instance meta data #####
 #InstanceID=`/usr/bin/curl -s http://169.254.169.254/latest/meta-data/instance-id`
 ##### Set a tag name indicating instance is not configured ####
@@ -10,6 +10,7 @@ curl "https://bootstrap.pypa.io/get-pip.py" -o "/tmp/get-pip.py"
 python /tmp/get-pip.py
 pip install pip --upgrade
 rm -fr /tmp/get-pip.py
+source ~/.bashrc
 pip install boto
 pip install --upgrade ansible
 ##### Clone your ansible repository ######
