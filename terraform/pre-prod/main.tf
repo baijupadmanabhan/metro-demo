@@ -108,9 +108,9 @@ locals {
       {
         rule_number = 140
         rule_action = "allow"
-        from_port   = 3389
-        to_port     = 3389
-        protocol    = "tcp"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
         cidr_block  = "0.0.0.0/0"
       },
     ]
@@ -150,10 +150,49 @@ locals {
       {
         rule_number = 140
         rule_action = "allow"
-        icmp_code   = -1
-        icmp_type   = 8
-        protocol    = "icmp"
-        cidr_block  = "10.0.0.0/22"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+
+
+
+    egress_inbound = [
+    {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "10.0.0.0/16"
+      },
+      {
+        rule_number = 110
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
+      },
+    ]
+    egress_outbound = [
+      {
+        rule_number = 100
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "10.0.0.0/16"
+      },
+      {
+        rule_number = 110
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_block  = "0.0.0.0/0"
       },
     ]
   }

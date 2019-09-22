@@ -45,7 +45,7 @@ resource "aws_subnet" "ingress-subnet" {
     cidr_block = "${var.ingress-subnet-prefix}.${count.index+20+1}.0/24"
     availability_zone = "${element(data.aws_availability_zones.azs.names,count.index)}"
     map_public_ip_on_launch = true
-    
+
     tags = {
         Name = "ingress-subnet-${count.index+1}"
         Tier = "Ingress"
@@ -270,6 +270,37 @@ resource "aws_network_acl_rule" "public_outbound" {
   cidr_block  = var.public_outbound_acl_rules[count.index]["cidr_block"]
 }
 
+resource "aws_network_acl_rule" "egress_inbound" {
+  count = length(var.egress_inbound_acl_rules)
+
+  network_acl_id = aws_network_acl.network_acl2.id
+
+  egress      = false
+  rule_number = var.egress_inbound_acl_rules[count.index]["rule_number"]
+  rule_action = var.egress_inbound_acl_rules[count.index]["rule_action"]
+  from_port   = lookup(var.egress_inbound_acl_rules[count.index], "from_port", null)
+  to_port     = lookup(var.egress_inbound_acl_rules[count.index], "to_port", null)
+  icmp_code   = lookup(var.egress_inbound_acl_rules[count.index], "icmp_code", null)
+  icmp_type   = lookup(var.egress_inbound_acl_rules[count.index], "icmp_type", null)
+  protocol    = var.egress_inbound_acl_rules[count.index]["protocol"]
+  cidr_block  = var.egress_inbound_acl_rules[count.index]["cidr_block"]
+}
+
+resource "aws_network_acl_rule" "egress_outbound" {
+  count = length(var.egress_outbound_acl_rules)
+
+  network_acl_id = aws_network_acl.network_acl2.id
+
+  egress      = true
+  rule_number = var.egress_outbound_acl_rules[count.index]["rule_number"]
+  rule_action = var.egress_outbound_acl_rules[count.index]["rule_action"]
+  from_port   = lookup(var.egress_outbound_acl_rules[count.index], "from_port", null)
+  to_port     = lookup(var.egress_outbound_acl_rules[count.index], "to_port", null)
+  icmp_code   = lookup(var.egress_outbound_acl_rules[count.index], "icmp_code", null)
+  icmp_type   = lookup(var.egress_outbound_acl_rules[count.index], "icmp_type", null)
+  protocol    = var.egress_outbound_acl_rules[count.index]["protocol"]
+  cidr_block  = var.egress_outbound_acl_rules[count.index]["cidr_block"]
+}
 
 ###########################################################
 # Security Group

@@ -10,6 +10,24 @@
 #   }
 # }
 
+data "aws_iam_policy_document" "ec2_instance_policy_doc" {
+  statement {
+    actions   = ["ec2:*"]
+    resources = ["*"]
+  }
+
+  statement {
+    sid = "Ec2andS3Access"
+
+    actions = ["s3:*"]
+    resources = [
+      "arn:aws:s3:::*",
+    ]
+  } 
+}
+
+
+
 resource "aws_iam_instance_profile" "demo_profile" {
     name = "demo_ec2_profile"
     role = "${aws_iam_role.demo_ec2_role.name}"
@@ -30,31 +48,16 @@ resource "aws_iam_role" "demo_ec2_role" {
               },
               "Effect": "Allow",
               "Sid": ""
-          },
-          {
-            "Effect": "Allow",
-            "Action": [
-                "ec2:RunInstances",
-                "ec2:StopInstances",
-                "ec2:StartInstances",
-                "ec2:TerminateInstances",
-                "ec2:Describe*",
-                "ec2:CreateTags",
-                "ec2:*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:ListBucket"
-            ],
-            "Resource": "*"
-        }
+          }
       ]
     }
 EOF
+}
+
+resource "aws_iam_role_policy" "ec2-policy" {
+    name        = "Demo-Instance-policy"
+    role = "${aws_iam_role.demo_ec2_role.id}"
+    policy      = "${data.aws_iam_policy_document.ec2_instance_policy_doc.json}"
 }
 
 resource "aws_launch_configuration" "demo_lc" {

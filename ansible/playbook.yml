@@ -1,16 +1,17 @@
 ---
-- hosts: all
+- hosts: localhost
   become: yes
   become_user: root
   become_method: sudo
   tasks:
-    - name: Enable nginx.
-      shell: "amazon-linux-extras enable nginx1.12"
-      become: yes
     - name: Install nginx
       yum:
         name: nginx
         state: latest
+    - name: start nginx
+      service:
+          name: nginx
+          state: started
     - name: Copy nginx file.
       copy:
         src: "./nginx-files/nginx.conf"
@@ -18,7 +19,7 @@
         mode: 0644
     - name: Copy site.conf
       copy: 
-        src: "./files/site.conf"
+        src: "./nginx-files/site.conf"
         dest: "/etc/nginx/conf.d/site.conf"
         mode: 0644
     - name: Creates webpage dir.
