@@ -10,6 +10,15 @@
 #   }
 # }
 
+resource "aws_eip" "bastion_eip" {
+  vpc = true
+
+  tags = {
+       Name = "Bastion Elastic IP"
+      Environment = "${var.env_name}"
+   }
+}
+
 resource "aws_launch_configuration" "bastion_lc" {
 
     name_prefix                 = "bastion_lc-"
@@ -20,7 +29,14 @@ resource "aws_launch_configuration" "bastion_lc" {
     security_groups             = var.bastion_sg_ids
     #user_data                   = ""
     #enable_monitoring           = var.enable_monitoring
+    associate_public_ip_address = true
 
+user_data = <<EOF
+#cloud-config
+runcmd:
+  - aws ec2 associate-address --instance-id $(curl http://169.254.169.254/latest/meta-data/instance-id) --allocation-id ${aws_eip.bastion_eip.id} --allow-reassociation
+  - aws ec2 create-tags --resources --instance-id $(curl http://169.254.169.254/latest/meta-data/instance-id) --tags "Key=Name,Value=Bastion"
+EOF
 
     lifecycle {
       create_before_destroy = true

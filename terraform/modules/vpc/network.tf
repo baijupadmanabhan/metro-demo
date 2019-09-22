@@ -44,6 +44,8 @@ resource "aws_subnet" "ingress-subnet" {
     vpc_id     = "${var.vpc-id}"
     cidr_block = "${var.ingress-subnet-prefix}.${count.index+20+1}.0/24"
     availability_zone = "${element(data.aws_availability_zones.azs.names,count.index)}"
+    map_public_ip_on_launch = true
+    
     tags = {
         Name = "ingress-subnet-${count.index+1}"
         Tier = "Ingress"

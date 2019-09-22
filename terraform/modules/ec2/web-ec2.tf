@@ -30,7 +30,28 @@ resource "aws_iam_role" "demo_ec2_role" {
               },
               "Effect": "Allow",
               "Sid": ""
-          }
+          },
+          {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:RunInstances",
+                "ec2:StopInstances",
+                "ec2:StartInstances",
+                "ec2:TerminateInstances",
+                "ec2:Describe*",
+                "ec2:CreateTags",
+                "ec2:*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": "*"
+        }
       ]
     }
 EOF
