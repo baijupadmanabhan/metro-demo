@@ -1,22 +1,15 @@
 #!/bin/bash
-##### Instance ID captured through Instance meta data #####
-#InstanceID=`/usr/bin/curl -s http://169.254.169.254/latest/meta-data/instance-id`
-##### Set a tag name indicating instance is not configured ####
-#aws ec2 create-tags --region $EC2_REGION --resources $InstanceID --tags Key=Initialized,Value=false
-##### Install Ansible ######
 yum update -y
 yum install git  -y
-curl "https://bootstrap.pypa.io/get-pip.py" -o "/tmp/get-pip.py"
-python /tmp/get-pip.py
+sudo yum install python
+curl -O https://bootstrap.pypa.io/get-pip.py
+python get-pip.py --user
+sudo cp ~/.local/bin/pip /usr/bin/
 pip install pip --upgrade
-rm -fr /tmp/get-pip.py
+pip install awsebcli --upgrade --user
 source ~/.bashrc
 pip install boto
 pip install --upgrade ansible
-##### Clone your ansible repository ######
 git clone https://github.com/baijupadmanabhan/metro-demo.git
 cd metro-demo/ansible/
-chmod 400 keys/*
-##### Run your ansible playbook for only autoscaled and not initialised instances ######
-#ansible-playbook playbook.yml --limit "tag_Name_AutoScaled:&tag_Initialized_false" 
 ansible-playbook playbook.yml

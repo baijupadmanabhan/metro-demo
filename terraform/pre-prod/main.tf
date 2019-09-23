@@ -27,7 +27,7 @@ module "preprod-vpc" {
 
 module "web-ec2" {
     source = "../modules/ec2"
-    image_id = "ami-08d489468314a58df"
+    image_id = "ami-04b762b4289fba92b"
     instance_type = "t2.micro"
     key_name = "demo-key"
 
