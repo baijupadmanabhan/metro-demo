@@ -1,1 +1,64 @@
-Health is OK!!!
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.numeric-min.js"></script>
+<script>
+$('#demo').numeric({ negative: false })
+</script>
+
+<script>
+
+$(document).ready(function(){
+  $("button").click(function(){
+	var x = document.getElementById("demo").value;
+       	var hostname = window.location.origin;
+        var url1 = hostname+"/app/accessid/"+x;
+    $.ajax({url: url1, success: function(result){
+	var obj = JSON.parse(result);
+        console.log("data : " + obj.secretkey);
+      $("#div1").html(obj.secretkey);
+    }});
+  });
+});
+</script>
+
+<style>
+h1.header1 {
+  border: 1px solid black;
+  outline: #4CAF50 solid 2px;
+  margin: auto;  
+  padding: 20px;
+  text-align: center;
+}
+
+div.div1 {
+  border: 2px solid black;
+  outline: #4CAF50 solid 2px;
+  margin: auto;  
+  padding: 20px;
+  text-align: center;
+}
+</style>
+
+</head>
+<body>
+
+<h1 class="header1">Access Token Demo</h1>
+
+<br><br><br>
+<h2>Enter the number of charaters required in the token.</h2>
+<h2>Enter a positive integer.</h2>
+<br>
+<input id="demo" class="form-control">
+<button>Get External Content</button>
+<br><br>
+<div id="div1"><h2></h2></div>
+
+
+
+
+
+</body>
+</html>

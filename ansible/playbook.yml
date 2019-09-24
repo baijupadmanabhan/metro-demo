@@ -29,10 +29,29 @@
       file: 
         path: "/var/www/site"
         state: directory
+    - name: Creates webpage dir.
+      file: 
+        path: "/var/www/site/js"
+        state: directory
     - name: Copy static file
       copy:
         src: "./nginx-files/index.html"
         dest: "/var/www/site/index.html"
+        mode: 0644
+    - name: Copy static file
+      copy:
+        src: "./nginx-files/health.html"
+        dest: "/var/www/site/health.html"
+        mode: 0644
+    - name: Copy static file
+      copy:
+        src: "./nginx-files/js/jquery.min.js"
+        dest: "/var/www/site/js/jquery.min.js"
+        mode: 0644
+    - name: Copy static file
+      copy:
+        src: "./nginx-files/js/jquery.numeric-min.js"
+        dest: "/var/www/site/js/jquery.numeric-min.js"
         mode: 0644
     - name: Restart Nginx
       service: name=nginx state=restarted
