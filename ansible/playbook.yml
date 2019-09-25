@@ -90,9 +90,9 @@
       shell: export PATH="$PATH:$GOROOT/bin:$GOBIN"
       
     - name: Adding the path in the bashrc files
-      shell: echo 'export PATH=$PATH:/usr/local/go/bin' >> /root/.bashrc
+      shell: echo 'export PATH=$PATH:/usr/local/go/bin' >> /root/.bash_profile
 
-    - name: Source the bashrc file
+    - name: setting path
       shell: export PATH=$PATH:/usr/local/go/bin
        
     - name: Go get packages 
