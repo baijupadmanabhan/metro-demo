@@ -72,6 +72,10 @@ Simple jQuery ajax function is used to call the api with an input parameter so t
 Request from ALB will be landing in nginx to serve the html pages. Api calls with a context root of \/app will be passed to application listening on 8080.
 
 
+# Next Steps
 
-
+* Creating a json file to load variables using lookup functions - will be usefull in creating multiple stacks with different variables such as instance type (dev,qa,prod, etc..)
+* Implement conditional statements for some resources using "count"
+* Write Readme for Modules
+* Implement an option for s3 backed state management, we can default to local.
 
