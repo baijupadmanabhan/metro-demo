@@ -16,12 +16,14 @@ Project Scope:
 |S.No | AWS Resources  | Description |
 |-----| ------------- | ------------- |
 |  1.  | VPC  | one AWS VPC   |
-|  2.  | Subnets  | Dyamic, based on number of AZs in the region For eg., if it in us-west-2 it will create 4 Private subnets, 4 Ingress Subnets, 4 Egress Subnets, 4 Data Subnets |
-|  3.  | 1 Internet GW | Internet GateWay  |
-|  4.  | Route Tables  | Private Route tables Per region associated with respective NAT GateWays |
-|  5.  | NACL   |  Network access control lists to deny all inbound except 80,443 |
-|  6.  | Bastion  | One bastion host to access Private instances |
-|  7.  | 1 ASG  | Random Password Generator Application is deployed in this autoscaling group.
+|  2.  | 1 Internet GW | Internet GateWay  |
+|  3.  | Subnets  | Dyamic, based on number of AZs in the region For eg., if it in us-west-2 it will create 4 Private subnets, 4 Ingress Subnets, 4 Egress Subnets and 4 Data Subnets |
+|  4.  | Natgateways | Dyamic, based on number of AZs. Any request to internet from private subnets will be routed to natgateway in same AZ  |
+|  5.  | Route Tables  | Private Route tables Per region associated with respective NAT GateWays |
+|  6.  | NACL   |  Network access control lists to deny all inbound except 80,443 |
+|  7.  | Bastion  | One bastion host to access Private instances |
+|  8.  | 1 ASG  | Random Password Generator Application is deployed in this autoscaling group.
+|  9.  | Security groups  | Security groups are created for bastion, ALB and appliction server.
 
 
 
@@ -39,6 +41,8 @@ Project Scope:
   terraform plan
   terraform apply --yes 
   ```
+
+Note: Infrastructure can be created in any region just by passing region name.
 
 # Ansible 
 
