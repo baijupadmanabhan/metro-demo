@@ -96,7 +96,7 @@
         dest: /etc/profile.d
       
     - name: Go get packages 
-      shell: source /etc/profile.d/go-path.sh && /usr/local/go/bin/go get -v -u github.com/gorilla/mux
+      shell: /usr/local/go/bin/go get -v -u github.com/gorilla/mux
       args:
         executable: /bin/bash
 
