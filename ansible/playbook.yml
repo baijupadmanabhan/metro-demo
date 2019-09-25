@@ -82,12 +82,17 @@
         copy: no
       when: go_version|failed or go_version.stdout != go_version_target
       
-    - name: Export go path
-      shell: export GOPATH="$HOME/go"
-    - name: Export go path
-      shell: export GOBIN="$GOPATH/bin"
-    - name: Export go path
-      shell: export PATH="$PATH:$GOROOT/bin:$GOBIN"
+    - name: Setting go path 
+      command: echo 'export PATH=$GOPATH/bin:$PATH' >> /etc/profile.d/go_path.sh
+      
+    - name: SSetting go GOPATH
+      command: echo 'export GOPATH="$HOME/go"' >> /etc/profile.d/go_path.sh
+      
+    - name: Setting go path GOBIN
+      command: echo 'export GOBIN="$GOPATH/bin"' >> /etc/profile.d/go_path.sh
+       
+    - name: Setting go path GOROOT
+      command: echo 'export PATH="$PATH:$GOROOT/bin:$GOBIN"' >> /etc/profile.d/go_path.sh
       
     - name: Adding the path in the bashrc files
       command: echo 'export PATH=$PATH:/usr/local/go/bin' >> /etc/profile.d/go_path.sh
