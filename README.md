@@ -41,7 +41,7 @@ Project Scope:
   cd metro-demo/terraform/preprod
   terraform init
   terraform plan
-  terraform apply --yes 
+  terraform apply
   ```
 
 Note: Infrastructure can be created in any region just by passing region name, ssh key name and ami-id.
