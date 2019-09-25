@@ -83,25 +83,31 @@
       when: go_version|failed or go_version.stdout != go_version_target
       
     - name: Adding the path in the bashrc files
-      shell: echo 'export PATH=$PATH:/usr/local/go/bin' >> /root/.bashrc
+      command: echo 'export PATH=$PATH:/usr/local/go/bin' >> /root/.bashrc
       
     - name: Adding the path in the bashrc files
-      shell: echo 'export PATH=$PATH:/usr/local/go/bin' >> /etc/profile.d/go_path.sh
+      command: echo 'export PATH=$PATH:/usr/local/go/bin' >> /root/.bashrc
+      
+    - name: Adding the path in the bashrc files
+      command: echo 'export PATH=$PATH:/usr/local/go/bin' >> /etc/profile.d/go_path.sh
       
     - name: Setting go path 
-      shell: echo 'export PATH=$GOPATH/bin:$PATH' >> /etc/profile.d/go_path.sh
+      command: echo 'export PATH=$GOPATH/bin:$PATH' >> /etc/profile.d/go_path.sh
       
     - name: SSetting go GOPATH
-      shell: echo 'export GOPATH="$HOME/go"' >> /etc/profile.d/go_path.sh
+      command: echo 'export GOPATH="$HOME/go"' >> /etc/profile.d/go_path.sh
       
     - name: Setting go path GOBIN
-      shell: echo 'export GOBIN="$GOPATH/bin"' >> /etc/profile.d/go_path.sh
+      command: echo 'export GOBIN="$GOPATH/bin"' >> /etc/profile.d/go_path.sh
        
     - name: Setting go path GOROOT
-      shell: echo 'export PATH="$PATH:$GOROOT/bin:$GOBIN"' >> /etc/profile.d/go_path.sh       
-       
+      command: echo 'export PATH="$PATH:$GOROOT/bin:$GOBIN"' >> /etc/profile.d/go_path.sh       
+    
+    - name: Source the bashrc file
+      shell: source /root/.bashrc
+      
     - name: Go get packages 
-      shell: /usr/local/go/bin/go get -v -u github.com/gorilla/mux
+      command: go get -v -u github.com/gorilla/mux
 
     - name: Creates go dir.
       file: 
