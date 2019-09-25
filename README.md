@@ -13,6 +13,12 @@ Project Scope:
 
 
 # AWS Infrastructure
+
+Diagram:
+
+![alt text](https://github.com/baijupadmanabhan/metro-demo/blob/master/Demo-app-architecture.png)
+ 
+ 
 |S.No | AWS Resources  | Description |
 |-----| ------------- | ------------- |
 |  1.  | VPC  | one AWS VPC   |
