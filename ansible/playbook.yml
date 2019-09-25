@@ -82,21 +82,26 @@
         copy: no
       when: go_version|failed or go_version.stdout != go_version_target
       
-    - name: Export go path
-      shell: export GOPATH="$HOME/go"
-    - name: Export go path
-      shell: export GOBIN="$GOPATH/bin"
-    - name: Export go path
-      shell: export PATH="$PATH:$GOROOT/bin:$GOBIN"
+    - name: Adding the path in the bashrc files
+      shell: echo 'export PATH=$PATH:/usr/local/go/bin' >> /root/.bashrc
       
     - name: Adding the path in the bashrc files
-      shell: echo 'export PATH=$PATH:/usr/local/go/bin' >> /root/.bash_profile
-
-    - name: setting path
-      shell: export PATH=$PATH:/usr/local/go/bin
+      shell: echo 'export PATH=$PATH:/usr/local/go/bin' >> /etc/profile.d/go_path.sh
+      
+    - name: Setting go path 
+      shell: echo 'export PATH=$GOPATH/bin:$PATH' >> /etc/profile.d/go_path.sh
+      
+    - name: SSetting go GOPATH
+      shell: echo 'export GOPATH="$HOME/go"' >> /etc/profile.d/go_path.sh
+      
+    - name: Setting go path GOBIN
+      shell: echo 'export GOBIN="$GOPATH/bin"' >> /etc/profile.d/go_path.sh
+       
+    - name: Setting go path GOROOT
+      shell: echo 'export PATH="$PATH:$GOROOT/bin:$GOBIN"' >> /etc/profile.d/go_path.sh       
        
     - name: Go get packages 
-      shell: go get -v -u github.com/gorilla/mux
+      shell: /usr/local/go/bin/go get -v -u github.com/gorilla/mux
 
     - name: Creates go dir.
       file: 
@@ -119,4 +124,3 @@
     
     - name: Start application
       shell: "(nohup main >/dev/null 2>&1 &)"
-
