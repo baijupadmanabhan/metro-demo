@@ -93,7 +93,7 @@
       shell: echo 'export PATH=$PATH:/usr/local/go/bin' >> /root/.bashrc
 
     - name: Source the bashrc file
-      shell: source /root/.bashrc
+      shell: export PATH=$PATH:/usr/local/go/bin
        
     - name: Go get packages 
       shell: go get -v -u github.com/gorilla/mux
