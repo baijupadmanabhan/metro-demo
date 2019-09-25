@@ -82,20 +82,15 @@
         copy: no
       when: go_version|failed or go_version.stdout != go_version_target
       
-    - name: Setting go path 
-      shell: echo 'export PATH=$GOPATH/bin:$PATH' >> /etc/profile.d/go_path.sh
-      
-    - name: SSetting go GOPATH
-      shell: echo 'export GOPATH="$HOME/go"' >> /etc/profile.d/go_path.sh
-      
-    - name: Setting go path GOBIN
-      shell: echo 'export GOBIN="$GOPATH/bin"' >> /etc/profile.d/go_path.sh
-       
-    - name: Setting go path GOROOT
-      shell: echo 'export PATH="$PATH:$GOROOT/bin:$GOBIN"' >> /etc/profile.d/go_path.sh
-      
-    - name: Adding the path in the bashrc files
-      shell: echo 'export PATH=$PATH:/usr/local/go/bin' >> /etc/profile.d/go_path.sh
+    - name: Add the Go bin directory
+      copy:
+        src: ../Golang/go-bin.sh
+        dest: /etc/profile.d
+
+    - name: Set GOPATH for all users
+      copy:
+        src: ../Golang/go-path.sh
+        dest: /etc/profile.d
       
     - name: Go get packages 
       shell: go get -v -u github.com/gorilla/mux
