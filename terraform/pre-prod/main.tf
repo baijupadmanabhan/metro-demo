@@ -82,7 +82,7 @@ locals {
         cidr_block  = "10.0.0.0/16"
       },
       {
-        rule_number = 110
+        rule_number = 200
         rule_action = "allow"
         from_port   = 80
         to_port     = 80
@@ -90,7 +90,7 @@ locals {
         cidr_block  = "0.0.0.0/0"
       },
       {
-        rule_number = 120
+        rule_number = 210
         rule_action = "allow"
         from_port   = 443
         to_port     = 443
@@ -98,7 +98,7 @@ locals {
         cidr_block  = "0.0.0.0/0"
       },
       {
-        rule_number = 130
+        rule_number = 220
         rule_action = "allow"
         from_port   = 22
         to_port     = 22
@@ -106,11 +106,19 @@ locals {
         cidr_block  = "0.0.0.0/0"
       },
       {
-        rule_number = 140
+        rule_number = 230
         rule_action = "allow"
         from_port   = 0
-        to_port     = 0
-        protocol    = "-1"
+        to_port     = 65525
+        protocol    = "udp"
+        cidr_block  = "0.0.0.0/0"
+      },
+      {
+        rule_number = 240
+        rule_action = "allow"
+        from_port   = 0
+        to_port     = 53
+        protocol    = "tcp"
         cidr_block  = "0.0.0.0/0"
       },
     ]
@@ -124,37 +132,14 @@ locals {
         cidr_block  = "10.0.0.0/16"
       },
       {
-        rule_number = 110
-        rule_action = "allow"
-        from_port   = 443
-        to_port     = 443
-        protocol    = "tcp"
-        cidr_block  = "0.0.0.0/0"
-      },
-      {
-        rule_number = 120
-        rule_action = "allow"
-        from_port   = 1433
-        to_port     = 1433
-        protocol    = "tcp"
-        cidr_block  = "10.0.100.0/22"
-      },
-      {
-        rule_number = 130
-        rule_action = "allow"
-        from_port   = 22
-        to_port     = 22
-        protocol    = "tcp"
-        cidr_block  = "10.0.100.0/22"
-      },
-      {
-        rule_number = 140
+        rule_number = 200
         rule_action = "allow"
         from_port   = 0
         to_port     = 0
         protocol    = "-1"
         cidr_block  = "0.0.0.0/0"
       },
+
     ]
 
 
@@ -187,11 +172,43 @@ locals {
         cidr_block  = "10.0.0.0/16"
       },
       {
-        rule_number = 110
+        rule_number = 200
         rule_action = "allow"
-        from_port   = 0
-        to_port     = 0
-        protocol    = "-1"
+        from_port   = 80
+        to_port     = 80
+        protocol    = "tcp"
+        cidr_block  = "0.0.0.0/0"
+      },
+      {
+        rule_number = 210
+        rule_action = "allow"
+        from_port   = 443
+        to_port     = 443
+        protocol    = "tcp"
+        cidr_block  = "0.0.0.0/0"
+      },
+      {
+        rule_number = 220
+        rule_action = "allow"
+        from_port   = 123
+        to_port     = 123
+        protocol    = "udp"
+        cidr_block  = "0.0.0.0/0"
+      },
+      {
+        rule_number = 230
+        rule_action = "allow"
+        from_port   = 53
+        to_port     = 53
+        protocol    = "udp"
+        cidr_block  = "0.0.0.0/0"
+      },
+      {
+        rule_number = 240
+        rule_action = "allow"
+        from_port   = 53
+        to_port     = 53
+        protocol    = "tcp"
         cidr_block  = "0.0.0.0/0"
       },
     ]
