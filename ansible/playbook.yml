@@ -61,7 +61,7 @@
       get_url:
         url: "https://dl.google.com/go/go1.13.linux-amd64.tar.gz"
         dest: /usr/local/src/go1.13.linux-amd64.tar.gz
-        checksum: "68a2297eb099d1a76097905a2ce334e3155004ec08cdea85f24527be3c48e856"
+        checksum: "sha256:68a2297eb099d1a76097905a2ce334e3155004ec08cdea85f24527be3c48e856"
 
     - name: Register the current version
       command: /usr/local/go/bin/go version
@@ -81,15 +81,22 @@
         dest: /usr/local
         copy: no
       when: go_version|failed or go_version.stdout != go_version_target
-   
+      
+    - name: Export go path
+      shell: export GOPATH="$HOME/go"
+    - name: Export go path
+      shell: export GOBIN="$GOPATH/bin"
+    - name: Export go path
+      shell: export PATH="$PATH:$GOROOT/bin:$GOBIN"
+      
     - name: Adding the path in the bashrc files
-       lineinfile: dest=/root/.bashrc line='export PATH=$PATH:/usr/local/go/bin' insertafter='EOF' regexp='export PATH=\$PATH:/usr/local/go/bin' state=present
+      shell: echo 'export PATH=$PATH:/usr/local/go/bin' >> /root/.bashrc
 
     - name: Source the bashrc file
-       shell: source /root/.bashrc
+      shell: source /root/.bashrc
        
     - name: Go get packages 
-       shell: go get -v -u github.com/gorilla/mux
+      shell: go get -v -u github.com/gorilla/mux
 
     - name: Creates go dir.
       file: 
@@ -103,16 +110,13 @@
         
     - name: Copy go file
       copy: 
-        src: "./Golang/main.go"
+        src: "../Golang/main.go"
         dest: "/root/go-project/main.go"
         mode: 0755
         
-    -name: Install project
+    - name: Install project
       shell: "(cd /root/go-project; go install main.go)"
-      async: 10
-      poll: 0
     
-    -name: Start application
-      shell: "nohup main >/dev/null 2>&1 &)"
-      async: 10
-      poll: 0
+    - name: Start application
+      shell: "(nohup main >/dev/null 2>&1 &)"
+

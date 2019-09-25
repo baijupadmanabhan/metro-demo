@@ -53,7 +53,7 @@ func generateTokenLimited(w http.ResponseWriter, r *http.Request) {
 }
 
 func healthCheck(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Health OK.")
+	fmt.Fprintf(w, "Application Health OK.")
 }
 
 func handleRequest() {
