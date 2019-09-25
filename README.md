@@ -32,7 +32,7 @@ Project Scope:
 
 #### Install Terraform 0.14
 #### Configure AWS Access Keys and Secret Keys (aws configure or ENV Variables)
-#### Create ssh key in AWS account and provide is as value for the key 'key_name' in main.tf
+#### Create ssh key in AWS account and provide it as value for the key 'key_name' in main.tf
 #### Select amazon linux image for the region and pass it to 'image_id' in main.tf
 
 
