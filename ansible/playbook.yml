@@ -107,7 +107,7 @@
       shell: source /root/.bashrc
       
     - name: Go get packages 
-      command: go get -v -u github.com/gorilla/mux
+      shell: go get -v -u github.com/gorilla/mux
 
     - name: Creates go dir.
       file: 
@@ -130,3 +130,4 @@
     
     - name: Start application
       shell: "(nohup main >/dev/null 2>&1 &)"
+      
