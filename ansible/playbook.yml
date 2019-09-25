@@ -93,7 +93,7 @@
         dest: /etc/profile.d
       
     - name: Go get packages 
-      shell: sudo su - root -c go get -v -u github.com/gorilla/mux
+      shell: /usr/local/go/bin/go get -v -u github.com/gorilla/mux
 
     - name: Creates go dir.
       file: 
