@@ -25,10 +25,10 @@ Diagram:
 |  2.  | 1 Internet GW | Internet GateWay  |
 |  3.  | Subnets  | Dyamic, based on number of AZs in the region For eg., if it in us-west-2 it will create 4 Private subnets, 4 Ingress Subnets, 4 Egress Subnets and 4 Data Subnets |
 |  4.  | Natgateways | Dyamic, based on number of AZs. Any request to internet from private subnets will be routed to natgateway in same AZ  |
-|  5.  | Route Tables  | Private Route tables Per region associated with respective NAT GateWays |
-|  6.  | NACL   |  Network access control lists to deny all inbound except 80,443 |
-|  7.  | Bastion  | One bastion host to access Private instances |
-|  8.  | 1 ASG  | Random Password Generator Application is deployed in this autoscaling group.
+|  5.  | Route Tables  | Route tables created for each subnet types, private subnets talks to internet using netgateway route |
+|  6.  | NACL   |  Network access control lists to allow only specific ports like 80, 443, 53, 22, 123 and ephemeral |
+|  7.  | Bastion  | One bastion host to access Private instances which is in autoscale group |
+|  8.  | ASG  | Random Password Generator Application is deployed in autoscaling group.
 |  9.  | Security groups  | Security groups are created for bastion, ALB and appliction server.
 
 
