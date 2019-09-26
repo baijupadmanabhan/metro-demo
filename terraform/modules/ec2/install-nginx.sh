@@ -35,8 +35,8 @@ ansible-playbook playbook.yml
 sudo amazon-linux-extras install docker
 sudo service docker start
 cd /metro-demo/Golang/
-docker build -t TokenGenerator .
-docker run -t -i -p 8080:8080
+docker build -t tokentenerator .
+docker run -t -i -p 8080:8080 tokentenerator
 
 REGION=$(curl http://169.254.169.254/latest/meta-data/placement/availability-zone -s | sed 's/[a-z]$//')
 aws ec2 create-tags --resources $(curl http://169.254.169.254/latest/meta-data/instance-id) --tags Key=Name,Value=Webserver --region ${REGION}
