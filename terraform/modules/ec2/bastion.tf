@@ -30,12 +30,13 @@ resource "aws_launch_configuration" "bastion_lc" {
     #user_data                   = ""
     #enable_monitoring           = var.enable_monitoring
     associate_public_ip_address = true
+    #user_data                   = "${base64encode(file("${path.module}/bastion-data.sh"))}"
 
 user_data = <<EOF
 #cloud-config
 runcmd:
-  - aws ec2 associate-address --instance-id $(curl http://169.254.169.254/latest/meta-data/instance-id) --allocation-id ${aws_eip.bastion_eip.id} --allow-reassociation
-  - aws ec2 create-tags --resources $(curl http://169.254.169.254/latest/meta-data/instance-id) --tags Key=Name,Value=Bastion
+  - aws ec2 associate-address --instance-id $(curl http://169.254.169.254/latest/meta-data/instance-id) --allocation-id ${aws_eip.bastion_eip.id} --allow-reassociation --region $(curl http://169.254.169.254/latest/meta-data/placement/availability-zone -s | sed 's/[a-z]$//')
+  - aws ec2 create-tags --resources $(curl http://169.254.169.254/latest/meta-data/instance-id) --tags Key=Name,Value=Bastion --region $(curl http://169.254.169.254/latest/meta-data/placement/availability-zone -s | sed 's/[a-z]$//')
 EOF
 
     lifecycle {

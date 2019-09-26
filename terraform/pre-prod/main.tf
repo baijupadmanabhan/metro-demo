@@ -2,6 +2,13 @@ provider "aws" {
   region = "us-west-2"
 }
 
+terraform {
+  backend "s3" {
+      bucket         = "metro-demo-terraform-state"
+      key            = "demostate/terraform.tfstate"
+      region         = "us-west-2"
+  }
+}
 
 module "preprod-vpc" {
     source = "../modules/vpc"

@@ -18,7 +18,7 @@ $(document).ready(function(){
     $.ajax({url: url1, success: function(result){
 	var obj = JSON.parse(result);
         console.log("data : " + obj.secretkey);
-      $("#div1").html(obj.secretkey);
+      $("#token1").html("Token : " + obj.secretkey);
     }});
   });
 });
@@ -33,13 +33,20 @@ h1.header1 {
   text-align: center;
 }
 
-div.div1 {
-  border: 2px solid black;
-  outline: #4CAF50 solid 2px;
-  margin: auto;  
-  padding: 20px;
-  text-align: center;
+#token {
+  border: 10px;
+  padding: 15px;
+  background: lightblue;
+  background-clip: content-box;
 }
+
+#token1 {
+  padding: 15px;
+  margin: 10px;
+  background: lightblue;
+  background-clip: content-box;
+  word-break: break-all;
+}      
 </style>
 
 </head>
@@ -54,10 +61,9 @@ div.div1 {
 <input id="demo" class="form-control">
 <button>Get External Content</button>
 <br><br>
-<div id="div1"><h2></h2></div>
-
-
-
+<div id="token">
+  <p id="token1">Token : </p>
+</div>
 
 
 </body>
