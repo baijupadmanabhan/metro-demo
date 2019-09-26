@@ -94,12 +94,7 @@
       copy:
         src: ../Golang/go-path.sh
         dest: /etc/profile.d
-      
-    - name: Go get packages 
-      shell: /usr/local/go/bin/go get -v -u github.com/gorilla/mux
-      args:
-        executable: /bin/bash
-
+        
     - name: Creates go dir.
       file: 
         path: "/root/go-project"
@@ -115,9 +110,14 @@
         src: "../Golang/main.go"
         dest: "/root/go-project/main.go"
         mode: 0755
-        
-    - name: Install project
-      shell: "(cd /root/go-project; go install main.go)"
+      
+    # - name: Go get packages 
+      # shell: /usr/local/go/bin/go get -v -u github.com/gorilla/mux
+      # args:
+        # executable: /bin/bash
+
+    # - name: Install project
+      # shell: "(cd /root/go-project; go install main.go)"
     
-    - name: Start application
-      shell: "(nohup main >/dev/null 2>&1 &)"
+    # - name: Start application
+      # shell: "(nohup main >/dev/null 2>&1 &)"
